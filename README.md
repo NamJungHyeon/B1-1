@@ -26,7 +26,7 @@
 | 이름 / 소개 문구 | `index.html`의 `<title>`, Hero, About 섹션 | 완료 (남정현) |
 | GitHub 아이디 | `js/main.js` 최상단의 `GITHUB_USERNAME` 상수 | 완료 (NamJungHyeon) |
 | 이메일 | `index.html`의 Footer 섹션 | 완료 (nam9490@gmail.com) |
-| 기술 스택 목록 | `index.html`의 Skills 섹션 | 예시 데이터, 교체 필요 |
+| 기술 스택 목록 | `index.html`의 Skills 섹션 | 완료 (백엔드 위주) |
 | 프로필 사진 | `images/profile.svg`를 실제 사진 파일로 교체 후 `about__photo`의 `<img src>` 수정 | 예시 데이터, 교체 필요 |
 | LinkedIn 링크 | `index.html`의 Footer 섹션 | 예시 데이터, 교체 필요 |
 
