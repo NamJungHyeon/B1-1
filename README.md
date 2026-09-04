@@ -4,8 +4,7 @@
 외부 프레임워크(React, Vue, Bootstrap 등) 없이 시맨틱 마크업, Flexbox/Grid,
 바닐라 JS DOM 조작과 GitHub API 연동으로 구현했습니다.
 
-> ⚠️ 프로필 사진과 기술 스택 목록은 아직 **예시(placeholder) 데이터**입니다.
-> 배포 전에 아래 "개인화하기" 항목을 참고해 교체하세요.
+> ⚠️ Contact 폼으로 실제 이메일을 받으려면 아래 "보너스 기능"의 Formspree 설정이 필요합니다.
 
 ## 사용 기술
 
@@ -27,8 +26,9 @@
 | GitHub 아이디 | `js/main.js` 최상단의 `GITHUB_USERNAME` 상수 | 완료 (NamJungHyeon) |
 | 이메일 | `index.html`의 Footer 섹션 | 완료 (nam9490@gmail.com) |
 | 기술 스택 목록 | `index.html`의 Skills 섹션 | 완료 (백엔드 위주) |
-| 프로필 사진 | `images/profile.svg`를 실제 사진 파일로 교체 후 `about__photo`의 `<img src>` 수정 | 예시 데이터, 교체 필요 |
-| LinkedIn 링크 | `index.html`의 Footer 섹션 | 예시 데이터, 교체 필요 |
+| 프로필 사진 | `images/profile.png` | 완료 |
+| LinkedIn 링크 | `index.html`의 Footer 섹션 | 완료 |
+| Formspree 엔드포인트 (보너스: 실제 폼 전송) | `js/main.js`의 `FORMSPREE_ENDPOINT` 상수 | 미설정 (아래 "보너스 기능" 참고) |
 
 ## 기준값 (요구사항 명시 사항)
 
@@ -44,6 +44,18 @@
 - Intersection Observer 기반 스크롤 등장 애니메이션
 - GitHub API로 저장소 목록을 불러와 카드로 렌더링 (로딩 / 성공 / 에러 / 빈 상태 모두 처리)
 - Contact 폼 유효성 검사 (필수값, 이메일 형식, 필드별 에러 메시지)
+
+## 보너스 기능
+
+- **프로젝트 언어별 필터링**: GitHub에서 불러온 저장소의 언어를 `array.filter()`로 추출해
+  필터 버튼을 만들고, 클릭 시 해당 언어의 저장소만 보여줍니다 (`js/main.js`의 `renderFilters`/`applyFilter`).
+- **타이핑 효과**: Hero 섹션의 이름이 한 글자씩 나타납니다 (`js/main.js`의 `setupTypingEffect`).
+- **시스템 다크 모드 감지**: `localStorage`에 저장된 설정이 없으면 `prefers-color-scheme`
+  미디어 쿼리로 OS 다크 모드 설정을 따라가고, 시스템 설정이 바뀌면 실시간으로 반영합니다.
+  사용자가 토글을 한 번이라도 누르면 그 이후로는 수동 설정을 우선합니다 (`js/main.js`의 `initTheme`).
+- **폼 실제 전송 (Formspree)**: [formspree.io](https://formspree.io)에 가입해 폼을 만든 뒤,
+  `js/main.js` 상단의 `FORMSPREE_ENDPOINT`를 본인 폼 URL로 교체하면 Contact 폼 제출 시
+  실제로 이메일을 받을 수 있습니다. 설정 전에는 로컬에서 성공 메시지만 보여주는 데모 모드로 동작합니다.
 
 ## 로컬 실행
 

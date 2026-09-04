@@ -16,8 +16,8 @@
 </head>
 <body>
     <!--
-        TODO: 프로필 사진(images/profile.svg)과 기술 스택, 소셜 링크는
-        아직 예시(placeholder) 데이터입니다. 필요에 맞게 교체하세요.
+        TODO: Contact 폼으로 실제 이메일을 받으려면 js/main.js의
+        FORMSPREE_ENDPOINT를 본인 Formspree 폼 URL로 교체하세요.
     -->
 
     <header class="header" id="header">
@@ -124,6 +124,7 @@
                 <h2 class="section-title reveal">Projects</h2>
                 <p class="projects__desc reveal">GitHub API로 불러온 최신 저장소 목록입니다.</p>
 
+                <div id="projects-filter" class="projects__filter" role="group" aria-label="언어별 필터"></div>
                 <div id="projects-status" class="projects__status" role="status" aria-live="polite"></div>
                 <div id="projects-grid" class="projects__grid"></div>
             </div>
@@ -156,6 +157,9 @@
                     <button type="submit" class="btn btn--primary contact-form__submit">보내기</button>
                     <p class="contact-form__success" id="form-success" hidden>
                         <i class="fa-solid fa-circle-check"></i> 메시지가 성공적으로 전송되었습니다. 감사합니다!
+                    </p>
+                    <p class="contact-form__error-msg" id="form-error-msg" hidden>
+                        <i class="fa-solid fa-circle-exclamation"></i> 전송에 실패했습니다. 잠시 후 다시 시도해주세요.
                     </p>
                 </form>
             </div>

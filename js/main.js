@@ -4,15 +4,31 @@ const NAV_SCROLL_THRESHOLD = 60;   // 네비게이션 배경 변경 기준 (px)
 const SCROLL_TOP_THRESHOLD = 300;  // 스크롤 탑 버튼 노출 기준 (px)
 const REVEAL_THRESHOLD = 0.2;      // Intersection Observer threshold
 
+// TODO: Formspree(https://formspree.io)에 가입해 폼을 만들고, 아래 값을 본인 엔드포인트로 교체하세요.
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+const isFormspreeConfigured = !FORMSPREE_ENDPOINT.includes('YOUR_FORM_ID');
+
 /* =========================================
-   1. 다크 모드: 상태(localStorage) -> 렌더링(data-theme)
+   1. 다크 모드: 상태(localStorage + 시스템 설정) -> 렌더링(data-theme)
    ========================================= */
 const initTheme = () => {
     const themeIcon = document.querySelector('#theme-icon');
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedTheme = localStorage.getItem('theme');
+    const systemQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const initialTheme = savedTheme || (systemQuery.matches ? 'dark' : 'light');
 
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeIcon(savedTheme, themeIcon);
+    document.documentElement.setAttribute('data-theme', initialTheme);
+    updateThemeIcon(initialTheme, themeIcon);
+
+    // 저장된 값이 없을 때만 시스템 설정 변경을 실시간으로 따라간다.
+    // 사용자가 토글을 눌러 직접 선택하면(localStorage에 값이 생기면) 더 이상 따라가지 않는다.
+    systemQuery.addEventListener('change', (event) => {
+        if (localStorage.getItem('theme')) return;
+
+        const nextTheme = event.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', nextTheme);
+        updateThemeIcon(nextTheme, themeIcon);
+    });
 };
 
 const updateThemeIcon = (theme, iconEl) => {
@@ -58,7 +74,34 @@ const setupHamburgerMenu = () => {
 };
 
 /* =========================================
-   3. 스크롤 관련: 네비 배경 변경 + 스크롤탑 버튼
+   3. Hero 타이핑 효과
+   ========================================= */
+const TYPING_SPEED_MS = 150;
+
+const setupTypingEffect = () => {
+    const target = document.querySelector('#typing-target');
+    const fullText = target.textContent;
+
+    target.textContent = '';
+    target.classList.add('typing');
+
+    let charIndex = 0;
+    const typeNextChar = () => {
+        charIndex += 1;
+        target.textContent = fullText.slice(0, charIndex);
+
+        if (charIndex < fullText.length) {
+            setTimeout(typeNextChar, TYPING_SPEED_MS);
+        } else {
+            target.classList.remove('typing');
+        }
+    };
+
+    setTimeout(typeNextChar, TYPING_SPEED_MS);
+};
+
+/* =========================================
+   4. 스크롤 관련: 네비 배경 변경 + 스크롤탑 버튼
    ========================================= */
 const setupScrollEffects = () => {
     const header = document.querySelector('#header');
@@ -80,7 +123,7 @@ const setupScrollEffects = () => {
 };
 
 /* =========================================
-   4. 스크롤 애니메이션 (Intersection Observer)
+   5. 스크롤 애니메이션 (Intersection Observer)
    ========================================= */
 const setupScrollReveal = () => {
     const revealEls = document.querySelectorAll('.reveal');
@@ -101,11 +144,13 @@ const setupScrollReveal = () => {
 };
 
 /* =========================================
-   5. 폼 유효성 검사: 입력 -> 상태 -> 에러 메시지
+   6. 폼 유효성 검사 + 전송: 입력 -> 상태 -> 에러/성공 메시지
    ========================================= */
 const setupContactForm = () => {
     const form = document.querySelector('#contact-form');
     const successMsg = document.querySelector('#form-success');
+    const errorMsg = document.querySelector('#form-error-msg');
+    const submitBtn = form.querySelector('.contact-form__submit');
 
     const fields = {
         name: {
@@ -146,7 +191,31 @@ const setupContactForm = () => {
         fields[key].input.addEventListener('input', () => validateField(key));
     });
 
-    form.addEventListener('submit', (event) => {
+    const showResultMessage = (successEl, hide = 4000) => {
+        successMsg.hidden = successEl !== successMsg;
+        errorMsg.hidden = successEl !== errorMsg;
+        successEl.hidden = false;
+
+        if (hide) {
+            setTimeout(() => {
+                successEl.hidden = true;
+            }, hide);
+        }
+    };
+
+    const submitToFormspree = async () => {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(form),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Formspree 요청 실패: ${response.status}`);
+        }
+    };
+
+    form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
         const results = Object.keys(fields).map((key) => validateField(key));
@@ -154,22 +223,41 @@ const setupContactForm = () => {
 
         if (!isValid) {
             successMsg.hidden = true;
+            errorMsg.hidden = true;
             return;
         }
 
-        successMsg.hidden = false;
-        form.reset();
-        Object.values(fields).forEach((field) => showFieldError(field, ''));
+        if (!isFormspreeConfigured) {
+            showResultMessage(successMsg);
+            form.reset();
+            Object.values(fields).forEach((field) => showFieldError(field, ''));
+            return;
+        }
 
-        setTimeout(() => {
-            successMsg.hidden = true;
-        }, 4000);
+        submitBtn.disabled = true;
+        submitBtn.textContent = '보내는 중...';
+
+        try {
+            await submitToFormspree();
+            showResultMessage(successMsg);
+            form.reset();
+            Object.values(fields).forEach((field) => showFieldError(field, ''));
+        } catch (err) {
+            console.error(err);
+            showResultMessage(errorMsg);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '보내기';
+        }
     });
 };
 
 /* =========================================
-   6. GitHub API 연동: 로딩 / 성공 / 에러 / 빈 상태
+   7. GitHub API 연동: 로딩 / 성공 / 에러 / 빈 상태 + 언어 필터
    ========================================= */
+let allRepos = [];
+let activeLanguage = 'all';
+
 const renderLoading = (statusEl) => {
     statusEl.innerHTML = `
         <div class="spinner"></div>
@@ -207,11 +295,62 @@ const renderProjects = (grid, repos) => {
     grid.innerHTML = repos.map(createProjectCard).join('');
 };
 
-async function loadProjects() {
+const getLanguages = (repos) => {
+    const languages = repos.map((repo) => repo.language).filter(Boolean);
+    return [...new Set(languages)];
+};
+
+const renderFilters = () => {
+    const filterEl = document.querySelector('#projects-filter');
+    const languages = getLanguages(allRepos);
+
+    if (languages.length === 0) {
+        filterEl.innerHTML = '';
+        return;
+    }
+
+    const buttons = ['all', ...languages].map((lang) => {
+        const label = lang === 'all' ? '전체' : lang;
+        const activeClass = lang === activeLanguage ? 'active' : '';
+        return `<button type="button" class="filter-btn ${activeClass}" data-lang="${lang}">${label}</button>`;
+    });
+
+    filterEl.innerHTML = buttons.join('');
+
+    filterEl.querySelectorAll('.filter-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            activeLanguage = btn.dataset.lang;
+            renderFilters();
+            applyFilter();
+        });
+    });
+};
+
+const applyFilter = () => {
     const statusEl = document.querySelector('#projects-status');
     const grid = document.querySelector('#projects-grid');
 
+    const filtered = activeLanguage === 'all'
+        ? allRepos
+        : allRepos.filter((repo) => repo.language === activeLanguage);
+
+    if (filtered.length === 0) {
+        grid.innerHTML = '';
+        renderEmpty(statusEl);
+        return;
+    }
+
+    statusEl.innerHTML = '';
+    renderProjects(grid, filtered);
+};
+
+async function loadProjects() {
+    const statusEl = document.querySelector('#projects-status');
+    const grid = document.querySelector('#projects-grid');
+    const filterEl = document.querySelector('#projects-filter');
+
     grid.innerHTML = '';
+    filterEl.innerHTML = '';
     renderLoading(statusEl);
 
     try {
@@ -222,14 +361,16 @@ async function loadProjects() {
         }
 
         const repos = await response.json();
+        allRepos = repos;
+        activeLanguage = 'all';
 
         if (repos.length === 0) {
             renderEmpty(statusEl);
             return;
         }
 
-        statusEl.innerHTML = '';
-        renderProjects(grid, repos);
+        renderFilters();
+        applyFilter();
     } catch (err) {
         console.error(err);
         renderError(statusEl);
@@ -243,6 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     setupThemeToggle();
     setupHamburgerMenu();
+    setupTypingEffect();
     setupScrollEffects();
     setupScrollReveal();
     setupContactForm();

@@ -296,6 +296,17 @@ h1, h2, h3 {
 
 .hero__highlight {
     color: var(--color-primary);
+    position: relative;
+}
+
+.hero__highlight.typing::after {
+    content: '|';
+    margin-left: 2px;
+    animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
 }
 
 .hero__subtitle {
@@ -415,6 +426,36 @@ h1, h2, h3 {
     color: var(--color-text-muted);
     margin-top: calc(var(--space-lg) * -1 + 0.5rem);
     margin-bottom: var(--space-lg);
+}
+
+.projects__filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: var(--space-md);
+}
+
+.filter-btn {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background-color: var(--color-surface);
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.filter-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.filter-btn.active {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
 }
 
 .projects__status {
@@ -579,6 +620,18 @@ h1, h2, h3 {
     text-align: center;
     color: #2f9e44;
     font-weight: 600;
+}
+
+.contact-form__error-msg {
+    margin-top: var(--space-md);
+    text-align: center;
+    color: #e5484d;
+    font-weight: 600;
+}
+
+.contact-form__submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 
 /* =========================================
