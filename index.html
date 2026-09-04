@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>김개발 | 포트폴리오</title>
+    <meta name="description" content="프론트엔드 개발자 김개발의 포트폴리오 웹사이트">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <!--
+        TODO: 아래 표시된 부분은 예시(placeholder) 데이터입니다.
+        본인 이름/소개/스택/연락처/GitHub 아이디로 교체하세요.
+        GitHub 아이디는 js/main.js 상단의 GITHUB_USERNAME 값을 바꾸면 됩니다.
+    -->
+
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="#hero" class="nav__logo">Kim<span>.dev</span></a>
+
+            <ul class="nav__menu" id="nav-menu">
+                <li class="nav__item"><a href="#hero" class="nav__link">홈</a></li>
+                <li class="nav__item"><a href="#about" class="nav__link">소개</a></li>
+                <li class="nav__item"><a href="#skills" class="nav__link">기술</a></li>
+                <li class="nav__item"><a href="#projects" class="nav__link">프로젝트</a></li>
+                <li class="nav__item"><a href="#contact" class="nav__link">연락처</a></li>
+            </ul>
+
+            <div class="nav__actions">
+                <button type="button" class="theme-toggle" id="theme-toggle" aria-label="다크 모드 전환">
+                    <i class="fa-solid fa-moon" id="theme-icon"></i>
+                </button>
+                <button type="button" class="hamburger" id="hamburger" aria-label="메뉴 열기" aria-expanded="false">
+                    <span class="hamburger__bar"></span>
+                    <span class="hamburger__bar"></span>
+                    <span class="hamburger__bar"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="hero">
+            <div class="container hero__inner">
+                <p class="hero__eyebrow reveal">안녕하세요 👋</p>
+                <h1 class="hero__title reveal">
+                    저는 <span class="hero__highlight" id="typing-target">김개발</span>입니다.
+                </h1>
+                <p class="hero__subtitle reveal">
+                    사용자 경험을 고민하는 프론트엔드 개발자입니다.<br>
+                    작은 인터랙션 하나에도 이유를 담으려고 합니다.
+                </p>
+                <div class="hero__cta reveal">
+                    <a href="#projects" class="btn btn--primary">프로젝트 보기</a>
+                    <a href="#contact" class="btn btn--outline">연락하기</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="container">
+                <h2 class="section-title reveal">About Me</h2>
+                <div class="about__grid">
+                    <div class="about__photo reveal">
+                        <img src="images/profile.svg" alt="김개발의 프로필 사진" width="240" height="240">
+                    </div>
+                    <article class="about__content reveal">
+                        <h3>자기소개</h3>
+                        <p>
+                            안녕하세요, 프론트엔드 개발에 관심이 많은 주니어 개발자 김개발입니다.
+                            사용자가 실제로 마주하는 화면과 상호작용을 만드는 일에 흥미를 느껴
+                            웹 개발을 시작했습니다. HTML, CSS, JavaScript의 기본기를 탄탄히 다진 뒤
+                            React와 같은 프레임워크로 학습을 넓혀가고 있습니다.
+                        </p>
+                        <ul class="about__facts">
+                            <li><i class="fa-solid fa-graduation-cap"></i> 웹 개발 학습 중 (AI/SW 기초 과정)</li>
+                            <li><i class="fa-solid fa-code"></i> 관심 분야: 프론트엔드, UI/UX</li>
+                            <li><i class="fa-solid fa-location-dot"></i> Seoul, South Korea</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="skills">
+            <div class="container">
+                <h2 class="section-title reveal">Skills</h2>
+                <div class="skills__grid">
+                    <article class="skill-card reveal">
+                        <h3><i class="fa-solid fa-code"></i> Frontend</h3>
+                        <ul>
+                            <li>HTML5</li>
+                            <li>CSS3 (Flexbox / Grid)</li>
+                            <li>JavaScript (ES6+)</li>
+                        </ul>
+                    </article>
+                    <article class="skill-card reveal">
+                        <h3><i class="fa-solid fa-wrench"></i> Tools</h3>
+                        <ul>
+                            <li>Git / GitHub</li>
+                            <li>VS Code</li>
+                            <li>Figma</li>
+                        </ul>
+                    </article>
+                    <article class="skill-card reveal">
+                        <h3><i class="fa-solid fa-book"></i> Learning</h3>
+                        <ul>
+                            <li>React</li>
+                            <li>TypeScript</li>
+                            <li>Node.js</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="projects">
+            <div class="container">
+                <h2 class="section-title reveal">Projects</h2>
+                <p class="projects__desc reveal">GitHub API로 불러온 최신 저장소 목록입니다.</p>
+
+                <div id="projects-status" class="projects__status" role="status" aria-live="polite"></div>
+                <div id="projects-grid" class="projects__grid"></div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2 class="section-title reveal">Contact</h2>
+                <p class="contact__desc reveal">궁금한 점이나 함께하고 싶은 프로젝트가 있다면 언제든 연락 주세요.</p>
+
+                <form id="contact-form" class="contact-form reveal" novalidate>
+                    <div class="form-group">
+                        <label for="name">이름</label>
+                        <input type="text" id="name" name="name" placeholder="홍길동">
+                        <span class="form-error" id="name-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">이메일</label>
+                        <input type="email" id="email" name="email" placeholder="example@email.com">
+                        <span class="form-error" id="email-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">메시지</label>
+                        <textarea id="message" name="message" rows="5" placeholder="전하고 싶은 말을 남겨주세요."></textarea>
+                        <span class="form-error" id="message-error"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn--primary contact-form__submit">보내기</button>
+                    <p class="contact-form__success" id="form-success" hidden>
+                        <i class="fa-solid fa-circle-check"></i> 메시지가 성공적으로 전송되었습니다. 감사합니다!
+                    </p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer__inner">
+            <p>&copy; 2026 김개발. All rights reserved.</p>
+            <div class="footer__socials">
+                <a href="https://github.com/octocat" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="mailto:your.email@example.com" aria-label="이메일"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <button type="button" class="scroll-top" id="scroll-top" aria-label="맨 위로 이동">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+</body>
+</html>
