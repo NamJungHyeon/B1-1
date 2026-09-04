@@ -17,7 +17,7 @@
 
 ## 배포 URL
 
-- (배포 후 이 자리에 GitHub Pages URL을 채워주세요)
+- https://namjunghyeon.github.io/B1-1/
 
 ## 개인화하기 (배포 전 체크리스트)
 
@@ -73,6 +73,6 @@ git push -u origin main
 
 ## 스크린샷
 
-- 데스크톱: (추가 예정)
-- 모바일: (추가 예정)
-- 다크 모드: (추가 예정)
+- 데스크톱: images/desktop.png
+- 모바일: images/mobile.png
+- 다크 모드: images/darkmode.png
