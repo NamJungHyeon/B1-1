@@ -73,6 +73,6 @@ git push -u origin main
 
 ## 스크린샷
 
-- 데스크톱: images/desktop.png
-- 모바일: images/mobile.png
-- 다크 모드: images/darkmode.png
+- 데스크톱: ![데스크탑 화면](images/desktop.png)
+- 모바일: ![모바일 화면](images/mobile.png)
+- 다크 모드: ![다크 모드 화면](images/darkmode.png)
