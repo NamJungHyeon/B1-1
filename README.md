@@ -4,8 +4,6 @@
 외부 프레임워크(React, Vue, Bootstrap 등) 없이 시맨틱 마크업, Flexbox/Grid,
 바닐라 JS DOM 조작과 GitHub API 연동으로 구현했습니다.
 
-> ⚠️ Contact 폼으로 실제 이메일을 받으려면 아래 "보너스 기능"의 Formspree 설정이 필요합니다.
-
 ## 사용 기술
 
 - HTML5 (시맨틱 태그: header, nav, main, section, article, footer)
@@ -28,7 +26,7 @@
 | 기술 스택 목록 | `index.html`의 Skills 섹션 | 완료 (백엔드 위주) |
 | 프로필 사진 | `images/profile.png` | 완료 |
 | LinkedIn 링크 | `index.html`의 Footer 섹션 | 완료 |
-| Formspree 엔드포인트 (보너스: 실제 폼 전송) | `js/main.js`의 `FORMSPREE_ENDPOINT` 상수 | 미설정 (아래 "보너스 기능" 참고) |
+| Formspree 엔드포인트 (보너스: 실제 폼 전송) | `js/main.js`의 `FORMSPREE_ENDPOINT` 상수 | 완료 |
 
 ## 기준값 (요구사항 명시 사항)
 
@@ -53,9 +51,9 @@
 - **시스템 다크 모드 감지**: `localStorage`에 저장된 설정이 없으면 `prefers-color-scheme`
   미디어 쿼리로 OS 다크 모드 설정을 따라가고, 시스템 설정이 바뀌면 실시간으로 반영합니다.
   사용자가 토글을 한 번이라도 누르면 그 이후로는 수동 설정을 우선합니다 (`js/main.js`의 `initTheme`).
-- **폼 실제 전송 (Formspree)**: [formspree.io](https://formspree.io)에 가입해 폼을 만든 뒤,
-  `js/main.js` 상단의 `FORMSPREE_ENDPOINT`를 본인 폼 URL로 교체하면 Contact 폼 제출 시
-  실제로 이메일을 받을 수 있습니다. 설정 전에는 로컬에서 성공 메시지만 보여주는 데모 모드로 동작합니다.
+- **폼 실제 전송 (Formspree)**: [formspree.io](https://formspree.io) 폼과 연동되어 있어
+  Contact 폼 제출 시 실제로 이메일(`nam9490@gmail.com`)로 전달됩니다. Formspree는 폼에
+  처음 제출이 들어오면 확인 메일을 보내며, 그걸 승인해야 이후 제출부터 정상 전달됩니다.
 
 ## 로컬 실행
 

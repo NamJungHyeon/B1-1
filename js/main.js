@@ -4,8 +4,7 @@ const NAV_SCROLL_THRESHOLD = 60;   // 네비게이션 배경 변경 기준 (px)
 const SCROLL_TOP_THRESHOLD = 300;  // 스크롤 탑 버튼 노출 기준 (px)
 const REVEAL_THRESHOLD = 0.2;      // Intersection Observer threshold
 
-// TODO: Formspree(https://formspree.io)에 가입해 폼을 만들고, 아래 값을 본인 엔드포인트로 교체하세요.
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mzebvewy';
 const isFormspreeConfigured = !FORMSPREE_ENDPOINT.includes('YOUR_FORM_ID');
 
 /* =========================================
