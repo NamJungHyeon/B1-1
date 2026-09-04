@@ -1,12 +1,11 @@
-# 김개발 포트폴리오 (예시 데이터)
+# 남정현 포트폴리오
 
 순수 HTML / CSS / JavaScript로 만든 반응형 개인 포트폴리오 웹사이트입니다.
 외부 프레임워크(React, Vue, Bootstrap 등) 없이 시맨틱 마크업, Flexbox/Grid,
 바닐라 JS DOM 조작과 GitHub API 연동으로 구현했습니다.
 
-> ⚠️ 이름, 소개, 기술 스택, GitHub 아이디, 연락처, 소셜 링크는 전부
-> **예시(placeholder) 데이터**입니다. 배포 전에 본인 정보로 교체하세요.
-> 교체할 위치는 아래 "개인화하기" 항목을 참고하세요.
+> ⚠️ 프로필 사진과 기술 스택 목록은 아직 **예시(placeholder) 데이터**입니다.
+> 배포 전에 아래 "개인화하기" 항목을 참고해 교체하세요.
 
 ## 사용 기술
 
@@ -22,13 +21,14 @@
 
 ## 개인화하기 (배포 전 체크리스트)
 
-| 항목 | 위치 |
-| --- | --- |
-| 이름 / 소개 문구 | `index.html`의 `<title>`, Hero, About 섹션 |
-| 기술 스택 목록 | `index.html`의 Skills 섹션 |
-| 프로필 사진 | `images/profile.svg`를 실제 사진 파일로 교체 후 `about__photo`의 `<img src>` 수정 |
-| GitHub 아이디 | `js/main.js` 최상단의 `GITHUB_USERNAME` 상수 |
-| 이메일 / 소셜 링크 | `index.html`의 Footer 섹션 |
+| 항목 | 위치 | 상태 |
+| --- | --- | --- |
+| 이름 / 소개 문구 | `index.html`의 `<title>`, Hero, About 섹션 | 완료 (남정현) |
+| GitHub 아이디 | `js/main.js` 최상단의 `GITHUB_USERNAME` 상수 | 완료 (NamJungHyeon) |
+| 이메일 | `index.html`의 Footer 섹션 | 완료 (nam9490@gmail.com) |
+| 기술 스택 목록 | `index.html`의 Skills 섹션 | 예시 데이터, 교체 필요 |
+| 프로필 사진 | `images/profile.svg`를 실제 사진 파일로 교체 후 `about__photo`의 `<img src>` 수정 | 예시 데이터, 교체 필요 |
+| LinkedIn 링크 | `index.html`의 Footer 섹션 | 예시 데이터, 교체 필요 |
 
 ## 기준값 (요구사항 명시 사항)
 

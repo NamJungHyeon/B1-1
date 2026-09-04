@@ -1,5 +1,4 @@
-// TODO: 본인의 GitHub 아이디로 교체하세요.
-const GITHUB_USERNAME = 'octocat';
+const GITHUB_USERNAME = 'NamJungHyeon';
 
 const NAV_SCROLL_THRESHOLD = 60;   // 네비게이션 배경 변경 기준 (px)
 const SCROLL_TOP_THRESHOLD = 300;  // 스크롤 탑 버튼 노출 기준 (px)
