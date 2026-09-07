@@ -254,8 +254,13 @@ const setupContactForm = () => {
 /* =========================================
    7. GitHub API 연동: 로딩 / 성공 / 에러 / 빈 상태 + 언어 필터
    ========================================= */
-let allRepos = [];
-let activeLanguage = 'all';
+// repos와 activeLanguage는 항상 함께 바뀌고(필터 클릭 -> 둘 다 참조해서 다시 렌더링),
+// 여러 함수(renderFilters/applyFilter/loadProjects)가 같이 읽고 쓰므로
+// 개별 변수 대신 하나의 상태 객체로 묶어서 관리한다.
+const projectsState = {
+    repos: [],
+    activeLanguage: 'all',
+};
 
 const renderLoading = (statusEl) => {
     statusEl.innerHTML = `
@@ -301,7 +306,7 @@ const getLanguages = (repos) => {
 
 const renderFilters = () => {
     const filterEl = document.querySelector('#projects-filter');
-    const languages = getLanguages(allRepos);
+    const languages = getLanguages(projectsState.repos);
 
     if (languages.length === 0) {
         filterEl.innerHTML = '';
@@ -310,7 +315,7 @@ const renderFilters = () => {
 
     const buttons = ['all', ...languages].map((lang) => {
         const label = lang === 'all' ? '전체' : lang;
-        const activeClass = lang === activeLanguage ? 'active' : '';
+        const activeClass = lang === projectsState.activeLanguage ? 'active' : '';
         return `<button type="button" class="filter-btn ${activeClass}" data-lang="${lang}">${label}</button>`;
     });
 
@@ -318,7 +323,7 @@ const renderFilters = () => {
 
     filterEl.querySelectorAll('.filter-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
-            activeLanguage = btn.dataset.lang;
+            projectsState.activeLanguage = btn.dataset.lang;
             renderFilters();
             applyFilter();
         });
@@ -329,9 +334,9 @@ const applyFilter = () => {
     const statusEl = document.querySelector('#projects-status');
     const grid = document.querySelector('#projects-grid');
 
-    const filtered = activeLanguage === 'all'
-        ? allRepos
-        : allRepos.filter((repo) => repo.language === activeLanguage);
+    const filtered = projectsState.activeLanguage === 'all'
+        ? projectsState.repos
+        : projectsState.repos.filter((repo) => repo.language === projectsState.activeLanguage);
 
     if (filtered.length === 0) {
         grid.innerHTML = '';
@@ -360,8 +365,8 @@ async function loadProjects() {
         }
 
         const repos = await response.json();
-        allRepos = repos;
-        activeLanguage = 'all';
+        projectsState.repos = repos;
+        projectsState.activeLanguage = 'all';
 
         if (repos.length === 0) {
             renderEmpty(statusEl);
