@@ -47,13 +47,22 @@
 
 - **프로젝트 언어별 필터링**: GitHub에서 불러온 저장소의 언어를 `array.filter()`로 추출해
   필터 버튼을 만들고, 클릭 시 해당 언어의 저장소만 보여줍니다 (`js/main.js`의 `renderFilters`/`applyFilter`).
+
+  ![언어별 필터링](images/bonus-filter.png)
+
 - **타이핑 효과**: Hero 섹션의 이름이 한 글자씩 나타납니다 (`js/main.js`의 `setupTypingEffect`).
+
+  ![타이핑 효과](images/bonus-typing.png)
+
 - **시스템 다크 모드 감지**: `localStorage`에 저장된 설정이 없으면 `prefers-color-scheme`
   미디어 쿼리로 OS 다크 모드 설정을 따라가고, 시스템 설정이 바뀌면 실시간으로 반영합니다.
   사용자가 토글을 한 번이라도 누르면 그 이후로는 수동 설정을 우선합니다 (`js/main.js`의 `initTheme`).
+  (화면은 아래 "스크린샷"의 다크 모드 캡처와 동일합니다 — 시스템 설정을 그대로 따라간 결과입니다.)
 - **폼 실제 전송 (Formspree)**: [formspree.io](https://formspree.io) 폼과 연동되어 있어
   Contact 폼 제출 시 실제로 이메일(`nam9490@gmail.com`)로 전달됩니다. Formspree는 폼에
   처음 제출이 들어오면 확인 메일을 보내며, 그걸 승인해야 이후 제출부터 정상 전달됩니다.
+
+  ![폼 전송 성공](images/bonus-contact.png)
 
 ## 로컬 실행
 
