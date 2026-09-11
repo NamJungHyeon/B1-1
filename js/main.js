@@ -281,13 +281,14 @@ const renderEmpty = (statusEl) => {
     statusEl.innerHTML = `<p>표시할 프로젝트가 없습니다.</p>`;
 };
 
-const createProjectCard = ({ name, html_url, description, stargazers_count, language }) => `
+const createProjectCard = ({ name, html_url, description, stargazers_count, language, fork }) => `
     <article class="project-card">
         <h3>${name}</h3>
         <p>${description ?? '설명이 없는 프로젝트입니다.'}</p>
         <div class="project-card__meta">
             <span><i class="fa-solid fa-star"></i> ${stargazers_count}</span>
             ${language ? `<span><i class="fa-solid fa-code"></i> ${language}</span>` : ''}
+            ${fork ? `<span class="badge-fork"><i class="fa-solid fa-code-fork"></i> Forked</span>` : ''}
         </div>
         <a class="project-card__link" href="${html_url}" target="_blank" rel="noopener noreferrer">
             저장소 보기 <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -304,19 +305,24 @@ const getLanguages = (repos) => {
     return [...new Set(languages)];
 };
 
+const FORKED_FILTER_KEY = 'forked';
+
 const renderFilters = () => {
     const filterEl = document.querySelector('#projects-filter');
     const languages = getLanguages(projectsState.repos);
+    const hasForks = projectsState.repos.some((repo) => repo.fork);
 
-    if (languages.length === 0) {
+    if (languages.length === 0 && !hasForks) {
         filterEl.innerHTML = '';
         return;
     }
 
-    const buttons = ['all', ...languages].map((lang) => {
-        const label = lang === 'all' ? '전체' : lang;
-        const activeClass = lang === projectsState.activeLanguage ? 'active' : '';
-        return `<button type="button" class="filter-btn ${activeClass}" data-lang="${lang}">${label}</button>`;
+    const filterKeys = ['all', ...languages, ...(hasForks ? [FORKED_FILTER_KEY] : [])];
+
+    const buttons = filterKeys.map((key) => {
+        const label = key === 'all' ? '전체' : key === FORKED_FILTER_KEY ? 'Forked' : key;
+        const activeClass = key === projectsState.activeLanguage ? 'active' : '';
+        return `<button type="button" class="filter-btn ${activeClass}" data-lang="${key}">${label}</button>`;
     });
 
     filterEl.innerHTML = buttons.join('');
@@ -336,7 +342,9 @@ const applyFilter = () => {
 
     const filtered = projectsState.activeLanguage === 'all'
         ? projectsState.repos
-        : projectsState.repos.filter((repo) => repo.language === projectsState.activeLanguage);
+        : projectsState.activeLanguage === FORKED_FILTER_KEY
+            ? projectsState.repos.filter((repo) => repo.fork)
+            : projectsState.repos.filter((repo) => repo.language === projectsState.activeLanguage);
 
     if (filtered.length === 0) {
         grid.innerHTML = '';

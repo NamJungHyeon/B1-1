@@ -548,9 +548,15 @@ h1, h2, h3 {
 
 .project-card__meta {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--space-sm);
     font-size: 0.85rem;
     color: var(--color-text-muted);
+}
+
+.badge-fork {
+    color: var(--color-primary);
+    font-weight: 600;
 }
 
 .project-card__link {
