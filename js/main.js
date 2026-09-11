@@ -3,6 +3,7 @@ const GITHUB_USERNAME = 'NamJungHyeon';
 const NAV_SCROLL_THRESHOLD = 60;   // 네비게이션 배경 변경 기준 (px)
 const SCROLL_TOP_THRESHOLD = 300;  // 스크롤 탑 버튼 노출 기준 (px)
 const REVEAL_THRESHOLD = 0.2;      // Intersection Observer threshold
+const PROJECTS_PAGE_SIZE = 6;      // 더보기를 누르기 전까지 보여줄 프로젝트 개수
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mzebvewy';
 const isFormspreeConfigured = !FORMSPREE_ENDPOINT.includes('YOUR_FORM_ID');
@@ -260,6 +261,7 @@ const setupContactForm = () => {
 const projectsState = {
     repos: [],
     activeLanguage: 'all',
+    expanded: false,
 };
 
 const renderLoading = (statusEl) => {
@@ -330,9 +332,31 @@ const renderFilters = () => {
     filterEl.querySelectorAll('.filter-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
             projectsState.activeLanguage = btn.dataset.lang;
+            projectsState.expanded = false;
             renderFilters();
             applyFilter();
         });
+    });
+};
+
+const renderMoreButton = (filteredCount) => {
+    const moreEl = document.querySelector('#projects-more');
+
+    if (projectsState.expanded || filteredCount <= PROJECTS_PAGE_SIZE) {
+        moreEl.innerHTML = '';
+        return;
+    }
+
+    const hiddenCount = filteredCount - PROJECTS_PAGE_SIZE;
+    moreEl.innerHTML = `
+        <button type="button" class="load-more-btn" id="load-more-btn">
+            더보기 (${hiddenCount}개 더)
+        </button>
+    `;
+
+    document.querySelector('#load-more-btn').addEventListener('click', () => {
+        projectsState.expanded = true;
+        applyFilter();
     });
 };
 
@@ -348,25 +372,31 @@ const applyFilter = () => {
 
     if (filtered.length === 0) {
         grid.innerHTML = '';
+        document.querySelector('#projects-more').innerHTML = '';
         renderEmpty(statusEl);
         return;
     }
 
+    const visible = projectsState.expanded ? filtered : filtered.slice(0, PROJECTS_PAGE_SIZE);
+
     statusEl.innerHTML = '';
-    renderProjects(grid, filtered);
+    renderProjects(grid, visible);
+    renderMoreButton(filtered.length);
 };
 
 async function loadProjects() {
     const statusEl = document.querySelector('#projects-status');
     const grid = document.querySelector('#projects-grid');
     const filterEl = document.querySelector('#projects-filter');
+    const moreEl = document.querySelector('#projects-more');
 
     grid.innerHTML = '';
     filterEl.innerHTML = '';
+    moreEl.innerHTML = '';
     renderLoading(statusEl);
 
     try {
-        const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=6`);
+        const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`);
 
         if (!response.ok) {
             throw new Error(`GitHub API 요청 실패: ${response.status}`);
@@ -375,6 +405,7 @@ async function loadProjects() {
         const repos = await response.json();
         projectsState.repos = repos;
         projectsState.activeLanguage = 'all';
+        projectsState.expanded = false;
 
         if (repos.length === 0) {
             renderEmpty(statusEl);
